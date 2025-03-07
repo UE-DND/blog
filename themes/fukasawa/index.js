@@ -11,10 +11,10 @@ import { Transition } from '@headlessui/react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import ArticleDetail from './components/ArticleDetail'
 import ArticleLock from './components/ArticleLock'
-import AsideLeft from './components/AsideLeft'
+import AsideLeft, { SidebarButtons } from './components/AsideLeft'
 import BlogListPage from './components/BlogListPage'
 import BlogListScroll from './components/BlogListScroll'
 import BlogArchiveItem from './components/BlogPostArchive'
@@ -48,8 +48,24 @@ const LayoutBase = props => {
   const leftAreaSlot = <Live2D />
   const { onLoading, fullWidth } = useGlobal()
   const searchModal = useRef(null)
+  
+  // 添加侧边栏折叠状态共享
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('fukasawa-sidebar-collapse') === 'true'
+    }
+    return false
+  })
+  
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('fukasawa-sidebar-collapse', !isCollapsed)
+    }
+  }
+  
   return (
-    <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
+    <ThemeGlobalFukasawa.Provider value={{ searchModal, isCollapsed, toggleSidebar }}>
       <div
         id='theme-fukasawa'
         className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth`}>
@@ -94,6 +110,8 @@ const LayoutBase = props => {
           </main>
         </div>
 
+        {/* 侧边栏按钮，移到此处确保正确显示 */}
+        <SidebarButtons />
         <AlgoliaSearchModal cRef={searchModal} {...props} />
       </div>
     </ThemeGlobalFukasawa.Provider>

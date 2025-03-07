@@ -15,8 +15,8 @@ import Logo from './Logo'
 import MailChimpForm from './MailChimpForm'
 import { MenuList } from './MenuList'
 import SearchInput from './SearchInput'
-import SiteInfo from './SiteInfo'
 import SocialButton from './SocialButton'
+import { useFukasawaGlobal } from '../index'
 
 /**
  * 侧边栏
@@ -34,7 +34,8 @@ function AsideLeft(props) {
     notice
   } = props
   const router = useRouter()
-  const { fullWidth } = useGlobal()
+  const { fullWidth, isDarkMode, toggleDarkMode } = useGlobal()
+  const { isCollapsed } = useFukasawaGlobal() // 使用主题全局状态
 
   const FUKASAWA_SIDEBAR_COLLAPSE_SATUS_DEFAULT =
     fullWidth ||
@@ -51,24 +52,6 @@ function AsideLeft(props) {
     null,
     CONFIG
   )
-
-  // 侧边栏折叠从 本地存储中获取 open 状态的初始值
-  const [isCollapsed, setIsCollapse] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return (
-        localStorage.getItem('fukasawa-sidebar-collapse') === 'true' ||
-        FUKASAWA_SIDEBAR_COLLAPSE_SATUS_DEFAULT
-      )
-    }
-    return FUKASAWA_SIDEBAR_COLLAPSE_SATUS_DEFAULT
-  })
-
-  // 在组件卸载时保存 open 状态到本地存储中
-  useEffect(() => {
-    if (isBrowser) {
-      localStorage.setItem('fukasawa-sidebar-collapse', isCollapsed)
-    }
-  }, [isCollapsed])
 
   const isReverse = siteConfig('LAYOUT_SIDEBAR_REVERSE')
   const position = useMemo(() => {
@@ -87,10 +70,9 @@ function AsideLeft(props) {
     }
   }, [isCollapsed])
 
-  // 折叠侧边栏
-  const toggleOpen = () => {
-    setIsCollapse(!isCollapsed)
-  }
+  // 检查是否是首页
+  const isHomePage = router.pathname === '/' || router.pathname === '/page/[page]'
+  const isPostPage = router.pathname.indexOf('/[slug]') > -1
 
   // 自动折叠侧边栏 onResize 窗口宽度小于1366 || 滚动条滚动至页面的300px时 ; 将open设置为false
   useEffect(() => {
@@ -99,9 +81,9 @@ function AsideLeft(props) {
     }
     const handleResize = debounce(() => {
       if (window.innerWidth < 1366 || window.scrollY >= 1366) {
-        setIsCollapse(true)
+        // setIsCollapse(true)
       } else {
-        setIsCollapse(false)
+        // setIsCollapse(false)
       }
     }, 100)
 
@@ -120,32 +102,10 @@ function AsideLeft(props) {
 
   return (
     <div
-      className={`sideLeft relative ${isCollapsed ? 'w-0' : 'w-80'} transition-all ease-in-out duration-200 bg-white dark:bg-hexo-black-gray min-h-screen hidden lg:block z-20 overflow-hidden`}
+      className={`sideLeft relative ${isCollapsed ? 'w-0' : 'w-80'} bg-white dark:bg-hexo-black-gray min-h-screen hidden lg:block z-20 sidebar-transition`}
       style={{ width: isCollapsed ? '0' : '20rem' }}>
       
-      {/* 重新样式化的折叠按钮，放在右下角深色模式切换按钮上方 */}
-      {FUKASAWA_SIDEBAR_COLLAPSE_BUTTON && (
-        <div
-          className="fixed right-4 bottom-20 z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 duration-200 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center"
-          onClick={toggleOpen}>
-          <div className="w-5 h-5 flex items-center justify-center dark:text-gray-200 text-gray-800">
-            {isCollapsed ? (
-              <i className='fas fa-angle-right'></i>
-            ) : (
-              <i className='fas fa-angle-left'></i>
-            )}
-          </div>
-        </div>
-      )}
-
-      <div 
-        className="absolute inset-0 w-80 transition-transform duration-200 ease-in-out"
-        style={{ 
-          transform: isCollapsed ? 'translateX(-100%)' : 'translateX(0)', 
-          opacity: isCollapsed ? 0 : 1,
-          transitionProperty: 'transform, opacity',
-          padding: '2rem'
-        }}>
+      <div className={`h-full ${isCollapsed ? 'hidden' : 'p-8'}`}>
         <Logo {...props} />
 
         <section className='siteInfo flex flex-col dark:text-gray-300 pt-8'>
@@ -186,32 +146,89 @@ function AsideLeft(props) {
           <AdSlot type='in-article' />
         </section>
 
-        {router.asPath !== '/tag' && (
-          <section className='flex flex-col'>
-            <div className='w-12 my-4' />
-            <GroupTag tags={tagOptions} currentTag={currentTag} />
-          </section>
-        )}
-
         <section className='flex flex-col'>
           <div className='w-12 my-4' />
           <SocialButton />
-          <SiteInfo />
+          <footer className='relative leading-6 justify-start w-full text-gray-600 dark:text-gray-300 text-xs'>
+            <span>Copyright © 2025 UE-DND. 保留所有权利。</span>
+          </footer>
         </section>
 
-        <section className='flex justify-center dark:text-gray-200 pt-4'>
-          <DarkModeButton />
-        </section>
-
-        <section className='sticky top-0 pt-12 flex flex-col max-h-screen'>
-          <Catalog toc={post?.toc} />
-          <div id="live2d-container" className='flex justify-center' style={{ height: '250px', minHeight: '250px' }}>
-            {slot && <div>{slot}</div>}
-          </div>
-        </section>
+        {/* 文章目录和Live2D组件包装在一个section内，使用sticky定位 */}
+        {isPostPage && post?.toc && post.toc.length > 0 && (
+          <section className='sticky top-0 pt-12 flex flex-col'>
+            <div className='text-sm font-bold dark:text-gray-300 mb-3'>
+              <i className='mr-1 fas fa-stream' />
+              文章目录
+            </div>
+            <div className='catalog-wrapper bg-white dark:bg-hexo-black-gray'>
+              <Catalog toc={post.toc} />
+            </div>
+            
+            {/* Live2D组件 */}
+            {post && (
+              <div id="live2d-container" className='flex justify-center' style={{ height: '250px', minHeight: '250px' }}>
+                {slot && <div>{slot}</div>}
+              </div>
+            )}
+          </section>
+        )}
+        
+        {/* 非文章页面只显示Live2D组件 */}
+        {(!isPostPage || !post?.toc || post.toc.length === 0) && post && (
+          <section className='pt-4'>
+            <div id="live2d-container" className='flex justify-center' style={{ height: '250px', minHeight: '250px' }}>
+              {slot && <div>{slot}</div>}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   )
 }
 
 export default AsideLeft
+
+/* 将按钮添加到组件外部，确保它们在正确的位置 */
+export function SidebarButtons() {
+  const { isDarkMode, toggleDarkMode } = useGlobal()
+  const { isCollapsed, toggleSidebar } = useFukasawaGlobal() // 使用主题全局状态
+  const FUKASAWA_SIDEBAR_COLLAPSE_BUTTON = siteConfig(
+    'FUKASAWA_SIDEBAR_COLLAPSE_BUTTON',
+    null,
+    CONFIG
+  )
+  
+  return (
+    <>
+      {/* 重新样式化的折叠按钮，固定在右下角 */}
+      {FUKASAWA_SIDEBAR_COLLAPSE_BUTTON && (
+        <div
+          className="fixed z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 duration-200 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center animated-button"
+          style={{ position: 'fixed', right: '1rem', bottom: '7rem' }}
+          onClick={toggleSidebar}>
+          <div className="w-5 h-5 flex items-center justify-center dark:text-gray-200 text-gray-800">
+            {isCollapsed ? (
+              <i className='fas fa-angle-right'></i>
+            ) : (
+              <i className='fas fa-angle-left'></i>
+            )}
+          </div>
+        </div>
+      )}
+      
+      {/* 深色模式切换按钮，固定在折叠按钮下方 */}
+      <div
+        className="fixed z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 duration-200 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center animated-button"
+        style={{ position: 'fixed', right: '1rem', bottom: '3rem' }}
+        onClick={toggleDarkMode}
+      >
+        <div className="w-5 h-5 flex items-center justify-center dark:text-gray-200 text-gray-800">
+          {isDarkMode ? 
+            <i className="fas fa-sun"></i> : 
+            <i className="fas fa-moon"></i>}
+        </div>
+      </div>
+    </>
+  )
+}
