@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useRef } from 'react'
 import ArticleDetail from './components/ArticleDetail'
 import ArticleLock from './components/ArticleLock'
-import AsideLeft from './components/AsideLeft'
+import AsideLeft, { SidebarButtons } from './components/AsideLeft'
 import BlogListPage from './components/BlogListPage'
 import BlogListScroll from './components/BlogListScroll'
 import BlogArchiveItem from './components/BlogPostArchive'
@@ -92,6 +92,9 @@ const LayoutBase = props => {
               </div>
             </div>
           </main>
+          
+          {/* 添加侧边栏按钮 */}
+          <SidebarButtons />
         </div>
 
         <AlgoliaSearchModal cRef={searchModal} {...props} />

@@ -42,7 +42,9 @@ const Catalog = ({ toc }) => {
       }
       setActiveSection(currentSectionId)
       const index = toc?.findIndex(obj => uuidToId(obj.id) === currentSectionId)
-      tRef?.current?.scrollTo({ top: 28 * index, behavior: 'smooth' })
+      if (index >= 0) {
+        tRef?.current?.scrollTo({ top: 28 * index, behavior: 'smooth' })
+      }
     }, throttleMs)
 
     actionSectionScrollSpy()
@@ -50,7 +52,7 @@ const Catalog = ({ toc }) => {
     return () => {
       window.removeEventListener('scroll', actionSectionScrollSpy)
     }
-  }, [toc])
+  }, [toc, activeSection])
 
   // 目录自动滚动
   const tRef = useRef(null)
@@ -58,29 +60,26 @@ const Catalog = ({ toc }) => {
   if (!toc || toc?.length < 1) {
     return <></>
   }
+  
   return (
     <div id='catalog' className='flex-1 flex-col flex overflow-hidden'>
-      <div className='w-full dark:text-gray-300 mb-2'>
-        <i className='mr-1 fas fa-stream' />
-        {locale.COMMON.TABLE_OF_CONTENTS}
-      </div>
       <nav
         ref={tRef}
-        className='flex-1 overflow-auto  overscroll-none scroll-hidden   text-black mb-6'>
+        className='flex-1 overflow-auto overscroll-none scroll-hidden text-black mb-2'>
         {toc.map(tocItem => {
           const id = uuidToId(tocItem.id)
           return (
             <a
               key={id}
               href={`#${id}`}
-              className={`${activeSection === id && 'dark:border-white border-gray-800 text-gray-800 font-bold'} hover:font-semibold border-l pl-4 block hover:text-gray-800 border-lduration-300 transform dark:text-gray-400 dark:border-gray-400
+              className={`${activeSection === id ? 'dark:border-white border-gray-800 text-gray-800 font-bold' : ''} hover:font-semibold border-l pl-4 block hover:text-gray-800 border-l duration-300 transform dark:text-gray-400 dark:border-gray-400
         notion-table-of-contents-item-indent-level-${tocItem.indentLevel} catalog-item `}>
               <span
                 style={{
                   display: 'inline-block',
                   marginLeft: tocItem.indentLevel * 16
                 }}
-                className={`truncate ${activeSection === id ? ' font-bold text-black dark:text-white underline' : ''}`}>
+                className={`truncate ${activeSection === id ? 'font-bold text-black dark:text-white underline' : ''}`}>
                 {tocItem.text}
               </span>
             </a>
