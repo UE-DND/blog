@@ -120,26 +120,48 @@ function AsideLeft(props) {
 
   return (
     <div
-      className={`sideLeft relative ${isCollapsed ? 'w-0' : 'w-80'} duration-300 transition-all bg-white dark:bg-hexo-black-gray min-h-screen hidden lg:block z-20`}>
-      {/* 悬浮的折叠按钮 */}
+      className={`sideLeft relative ${isCollapsed ? 'w-0' : 'w-80'} transition-all ease-in-out duration-200 bg-white dark:bg-hexo-black-gray min-h-screen hidden lg:block z-20 overflow-hidden`}
+      style={{ width: isCollapsed ? '0' : '20rem' }}>
+      
+      {/* 重新样式化的折叠按钮，放在右下角深色模式切换按钮上方 */}
       {FUKASAWA_SIDEBAR_COLLAPSE_BUTTON && (
         <div
-          className={`${position} hidden lg:block fixed top-0 cursor-pointer hover:scale-110 duration-300 px-3 py-2 dark:text-white`}
+          className="fixed right-4 bottom-20 z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 duration-200 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center"
           onClick={toggleOpen}>
-          {isCollapsed ? (
-            <i className='fa-solid fa-indent text-xl'></i>
-          ) : (
-            <i className='fas fa-bars text-xl'></i>
-          )}
+          <div className="w-5 h-5 flex items-center justify-center dark:text-gray-200 text-gray-800">
+            {isCollapsed ? (
+              <i className='fas fa-angle-right'></i>
+            ) : (
+              <i className='fas fa-angle-left'></i>
+            )}
+          </div>
         </div>
       )}
 
-      <div className={`h-full ${isCollapsed ? 'hidden' : 'p-8'}`}>
+      <div 
+        className="absolute inset-0 w-80 transition-transform duration-200 ease-in-out"
+        style={{ 
+          transform: isCollapsed ? 'translateX(-100%)' : 'translateX(0)', 
+          opacity: isCollapsed ? 0 : 1,
+          transitionProperty: 'transform, opacity',
+          padding: '2rem'
+        }}>
         <Logo {...props} />
 
         <section className='siteInfo flex flex-col dark:text-gray-300 pt-8'>
           {siteConfig('DESCRIPTION')}
         </section>
+
+        {/* 分类部分 - 移到菜单前面 */}
+        {router.asPath !== '/category' && (
+          <section className='flex flex-col'>
+            <div className='w-12 my-4' />
+            <GroupCategory
+              categories={categoryOptions}
+              currentCategory={currentCategory}
+            />
+          </section>
+        )}
 
         <section className='flex flex-col text-gray-600'>
           <div className='w-12 my-4' />
@@ -171,16 +193,6 @@ function AsideLeft(props) {
           </section>
         )}
 
-        {router.asPath !== '/category' && (
-          <section className='flex flex-col'>
-            <div className='w-12 my-4' />
-            <GroupCategory
-              categories={categoryOptions}
-              currentCategory={currentCategory}
-            />
-          </section>
-        )}
-
         <section className='flex flex-col'>
           <div className='w-12 my-4' />
           <SocialButton />
@@ -191,10 +203,10 @@ function AsideLeft(props) {
           <DarkModeButton />
         </section>
 
-        <section className='sticky top-0 pt-12  flex flex-col max-h-screen '>
+        <section className='sticky top-0 pt-12 flex flex-col max-h-screen'>
           <Catalog toc={post?.toc} />
-          <div className='flex justify-center'>
-            <div>{slot}</div>
+          <div id="live2d-container" className='flex justify-center' style={{ height: '250px', minHeight: '250px' }}>
+            {slot && <div>{slot}</div>}
           </div>
         </section>
       </div>

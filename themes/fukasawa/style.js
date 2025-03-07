@@ -45,6 +45,34 @@ const Style = () => {
         }
     }
 
+    /* 确保侧边栏宽度固定 */
+    #theme-fukasawa .sideLeft:not(.w-0) {
+        width: 20rem !important;
+        min-width: 20rem !important;
+        max-width: 20rem !important;
+        flex: 0 0 20rem !important;
+    }
+    
+    /* 为Live2D预留固定空间 */
+    #theme-fukasawa .sideLeft #live2d-container,
+    #theme-fukasawa .sideLeft #live2d-wrapper {
+        width: 280px;
+        height: 250px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    /* 确保主内容区域适当填充剩余空间 */
+    #theme-fukasawa #wrapper {
+        flex: 1 1 auto;
+        width: calc(100% - 20rem);
+    }
+    
+    /* 当侧边栏折叠时的主内容区域 */
+    #theme-fukasawa .w-0 + #wrapper {
+        width: 100%;
+    }
+
     .container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
