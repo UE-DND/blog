@@ -102,8 +102,12 @@ function AsideLeft(props) {
 
   return (
     <div
-      className={`sideLeft relative ${isCollapsed ? 'w-0' : 'w-80'} bg-white dark:bg-hexo-black-gray min-h-screen hidden lg:block z-20 sidebar-transition`}
-      style={{ width: isCollapsed ? '0' : '20rem' }}>
+      className={`sideLeft relative ${isCollapsed ? 'w-0' : 'w-80'} duration-500 transition-all bg-white dark:bg-hexo-black-gray min-h-screen hidden lg:block z-20`}
+      style={{ 
+        width: isCollapsed ? '0' : '20rem',
+        opacity: isCollapsed ? 0 : 1,
+        visibility: isCollapsed ? 'hidden' : 'visible'
+      }}>
       
       <div className={`h-full ${isCollapsed ? 'hidden' : 'p-8'}`}>
         <Logo {...props} />
@@ -156,18 +160,18 @@ function AsideLeft(props) {
 
         {/* 文章目录和Live2D组件包装在一个section内，使用sticky定位 */}
         {isPostPage && post?.toc && post.toc.length > 0 && (
-          <section className='sticky top-0 pt-12 flex flex-col'>
+          <section className='sticky top-0 pt-12' style={{ position: 'sticky', top: 0 }}>
             <div className='text-sm font-bold dark:text-gray-300 mb-3'>
               <i className='mr-1 fas fa-stream' />
               文章目录
             </div>
-            <div className='catalog-wrapper bg-white dark:bg-hexo-black-gray'>
+            <div className='catalog-wrapper bg-white dark:bg-hexo-black-gray w-full overflow-hidden'>
               <Catalog toc={post.toc} />
             </div>
             
             {/* Live2D组件 */}
             {post && (
-              <div id="live2d-container" className='flex justify-center' style={{ height: '250px', minHeight: '250px' }}>
+              <div id="live2d-container" className='flex justify-center mt-4' style={{ height: '250px', minHeight: '250px' }}>
                 {slot && <div>{slot}</div>}
               </div>
             )}
@@ -204,8 +208,13 @@ export function SidebarButtons() {
       {/* 重新样式化的折叠按钮，固定在右下角 */}
       {FUKASAWA_SIDEBAR_COLLAPSE_BUTTON && (
         <div
-          className="fixed z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 duration-200 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center animated-button"
-          style={{ position: 'fixed', right: '1rem', bottom: '7rem' }}
+          className="fixed z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center"
+          style={{ 
+            position: 'fixed', 
+            right: '1rem', 
+            bottom: '7rem',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+          }}
           onClick={toggleSidebar}>
           <div className="w-5 h-5 flex items-center justify-center dark:text-gray-200 text-gray-800">
             {isCollapsed ? (
@@ -219,14 +228,19 @@ export function SidebarButtons() {
       
       {/* 深色模式切换按钮，固定在折叠按钮下方 */}
       <div
-        className="fixed z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 duration-200 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center animated-button"
-        style={{ position: 'fixed', right: '1rem', bottom: '3rem' }}
+        className="fixed z-50 border dark:border-gray-600 p-3 rounded-full shadow-lg hover:scale-110 cursor-pointer bg-white dark:bg-black dark:text-white flex items-center justify-center"
+        style={{ 
+          position: 'fixed', 
+          right: '1rem', 
+          bottom: '3rem',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+        }}
         onClick={toggleDarkMode}
       >
         <div className="w-5 h-5 flex items-center justify-center dark:text-gray-200 text-gray-800">
           {isDarkMode ? 
-            <i className="fas fa-sun"></i> : 
-            <i className="fas fa-moon"></i>}
+            <i className='fas fa-sun'></i> : 
+            <i className='fas fa-moon'></i>}
         </div>
       </div>
     </>

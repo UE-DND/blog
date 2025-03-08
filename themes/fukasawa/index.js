@@ -84,7 +84,10 @@ const LayoutBase = props => {
 
           <main
             id='wrapper'
-            className='relative flex w-full py-8 justify-center bg-day dark:bg-night'>
+            className='relative flex w-full py-8 justify-center bg-day dark:bg-night duration-300 transition-all'
+            style={{
+              width: isCollapsed ? '100%' : 'calc(100% - 20rem)'
+            }}>
             <div
               id='container-inner'
               className={`${fullWidth ? '' : '2xl:max-w-6xl md:max-w-4xl'} w-full relative z-10`}>
