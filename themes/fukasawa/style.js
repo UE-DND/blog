@@ -174,6 +174,11 @@ const Style = () => {
         padding: 10px;
     }
 
+    /* 联系方式图标和文本间距调整 */
+    #theme-fukasawa .sideLeft section:nth-child(9) .w-full.justify-center.flex-wrap.flex {
+      margin-bottom: 0.5rem;
+    }
+
   `}</style>
 }
 
