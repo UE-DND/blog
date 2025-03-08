@@ -11,7 +11,7 @@ export const MenuItemDrop = ({ link }) => {
         changeShow(true)
       }}
       onMouseOut={() => changeShow(false)}
-      className='relative py-1 mb-1.5 duration-500 justify-between text-gray-500 dark:text-gray-300 hover:text-black hover:underline cursor-pointer flex flex-nowrap items-center '>
+      className='relative py-1 mb-1.5 duration-500 justify-between text-gray-500 dark:text-gray-300 hover:text-black hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg cursor-pointer flex flex-nowrap items-center '>
       {!hasSubMenu && (
         <Link
           href={link?.href}
@@ -51,7 +51,7 @@ export const MenuItemDrop = ({ link }) => {
                 <Link
                   href={sLink.href}
                   target={link?.target}
-                  className='my-auto py-1 px-2 items-center justify-start flex text-gray-500 dark:text-gray-300 hover:text-black  hover:bg-gray-50 dark:hover:bg-gray-900 tracking-widest transition-all duration-200 dark:border-gray-800 '>
+                  className='my-auto py-1 px-2 items-center justify-start flex text-gray-500 dark:text-gray-300 hover:text-black hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg tracking-widest transition-all duration-200 dark:border-gray-800 '>
                   {sLink.icon && (
                     <i className={`${sLink.icon} w-4 text-center `} />
                   )}

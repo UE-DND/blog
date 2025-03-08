@@ -130,6 +130,10 @@ const LayoutBase = props => {
  * @returns 首页就是一个博客列表
  */
 const LayoutIndex = props => {
+  // 如果有Home类型的文章，显示该文章内容，否则显示博客列表
+  if (props.homePost) {
+    return <LayoutSlug {...props} post={props.homePost} />
+  }
   return <LayoutPostList {...props} />
 }
 

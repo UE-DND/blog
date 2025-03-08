@@ -75,6 +75,17 @@ const Catalog = ({ toc }) => {
     }
   }, [activeSection])
 
+  const handleClick = (e, id) => {
+    e.preventDefault()
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+
   // 无目录就直接返回空
   if (!toc || toc?.length < 1) {
     return <></>
@@ -83,7 +94,9 @@ const Catalog = ({ toc }) => {
   return (
     <div id='catalog' className='flex-1 flex-col'>
       <div ref={catalogRef} className='catalog-content' style={{ maxHeight: '70vh', overflowY: 'auto', scrollBehavior: 'smooth' }}>
-        {toc.map(tocItem => {
+        {toc.map((tocItem) => {
+          const indentLevel = tocItem.depth - 1
+          const indentSpace = indentLevel * 1
           const id = uuidToId(tocItem.id)
           return (
             <a
@@ -91,7 +104,10 @@ const Catalog = ({ toc }) => {
               ref={el => itemRefs.current[id] = el}
               href={`#${id}`}
               className={`${activeSection === id ? 'dark:border-white border-gray-800 text-gray-800 font-bold' : ''} hover:font-semibold border-l pl-4 block hover:text-gray-800 border-l mb-1 py-1 transform dark:text-gray-400 dark:border-gray-400
-        notion-table-of-contents-item-indent-level-${tocItem.indentLevel} catalog-item `}>
+        notion-table-of-contents-item-indent-level-${tocItem.indentLevel} catalog-item cursor-pointer`}
+              style={{ paddingLeft: indentSpace + 'rem' }}
+              onClick={(e) => handleClick(e, id)}
+            >
               <span
                 style={{
                   display: 'inline-block',

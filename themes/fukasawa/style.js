@@ -158,6 +158,15 @@ const Style = () => {
         max-width: 100%;
     }
     
+    /* 深色模式下的目录字体颜色 */
+    .dark #theme-fukasawa .catalog-content .catalog-item {
+        color: #9ca3af;  /* 使用浅灰色 */
+    }
+    
+    .dark #theme-fukasawa .catalog-content .catalog-item.active {
+        color: #fff;  /* 当前阅读段落保持白色 */
+    }
+    
     /* 目录项文本样式 */
     #theme-fukasawa .catalog-item span {
         white-space: nowrap;
