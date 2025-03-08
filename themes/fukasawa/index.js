@@ -108,6 +108,9 @@ const LayoutBase = props => {
               </div>
             </div>
           </main>
+          
+          {/* 添加侧边栏按钮 */}
+          <SidebarButtons />
         </div>
 
         {/* 侧边栏按钮，移到此处确保正确显示 */}
