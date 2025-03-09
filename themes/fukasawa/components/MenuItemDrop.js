@@ -11,7 +11,7 @@ export const MenuItemDrop = ({ link }) => {
         changeShow(true)
       }}
       onMouseOut={() => changeShow(false)}
-      className='relative py-1 mb-1.5 duration-500 justify-between text-gray-500 dark:text-gray-300 hover:text-black hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg cursor-pointer flex flex-nowrap items-center '>
+      className='relative py-1 mb-1.5 duration-500 justify-between text-gray-500 dark:text-gray-300 hover:text-black hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg cursor-pointer flex flex-nowrap items-center px-2'>
       {!hasSubMenu && (
         <Link
           href={link?.href}
@@ -44,7 +44,7 @@ export const MenuItemDrop = ({ link }) => {
       {/* 子菜单 */}
       {hasSubMenu && (
         <ul
-          className={`${show ? 'visible opacity-100 left-72' : 'invisible opacity-0 left-80'} z-20 p-2 absolute right-0 top-0 w-full border-gray-100  bg-white  dark:bg-black dark:border-gray-800 transition-all duration-300 drop-shadow-lg `}>
+          className={`${show ? 'visible opacity-100 left-72' : 'invisible opacity-0 left-80'} z-20 p-2 absolute right-0 top-0 w-full border-1 border-gray-300 dark:border-gray-600 bg-white dark:bg-black transition-all duration-300 drop-shadow-lg rounded-lg`}>
           {link?.subMenus?.map((sLink, index) => {
             return (
               <li key={index}>
