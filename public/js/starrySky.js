@@ -120,9 +120,14 @@ function renderStarrySky() {
       u()
     })(),
     (function t() {
-      document.getElementsByTagName('html')[0].className.indexOf('dark') >= 0 &&
-        u(),
-        window.requestAnimationFrame(t)
+      const isDarkMode = document.getElementsByTagName('html')[0].className.indexOf('dark') >= 0
+      if (isDarkMode) {
+        u()
+      } else {
+        // 在退出深色模式时清除画布
+        h.clearRect(0, 0, n, e)
+      }
+      window.requestAnimationFrame(t)
     })()
 }
 

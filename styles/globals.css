@@ -114,16 +114,29 @@ nav {
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(20px);
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 4px;
+  opacity: 0;
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(128, 128, 128, 0.6);
   border-radius: 4px;
+  transition: background 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.scrolling::-webkit-scrollbar,
+.scrolling::-webkit-scrollbar-thumb {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .dark ::-webkit-scrollbar-thumb {
