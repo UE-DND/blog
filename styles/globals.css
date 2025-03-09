@@ -110,6 +110,47 @@ nav {
   width: 0 !important;
 }
 
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(20px);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+  opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.6);
+  border-radius: 4px;
+  transition: background 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.scrolling::-webkit-scrollbar,
+.scrolling::-webkit-scrollbar-thumb {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(74, 85, 104, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 85, 104, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(193, 193, 193, 0.8);
+}
+
 .glassmorphism {
   background: hsla(0, 0%, 100%, 0.05);
   -webkit-backdrop-filter: blur(10px);
@@ -194,7 +235,7 @@ nav {
 }
 
 .webmention {
-  margin-top: 1rem;
+  margin-top: -4rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }

@@ -68,7 +68,7 @@ const LayoutBase = props => {
     <ThemeGlobalFukasawa.Provider value={{ searchModal, isCollapsed, toggleSidebar }}>
       <div
         id='theme-fukasawa'
-        className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth`}>
+        className={`${siteConfig('FONT_STYLE')} dark:bg-gray-900 scroll-smooth`}>
         <Style />
         {/* 页头导航，此主题只在移动端生效 */}
         <Header {...props} />

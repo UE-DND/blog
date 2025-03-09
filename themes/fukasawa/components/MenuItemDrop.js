@@ -44,7 +44,7 @@ export const MenuItemDrop = ({ link }) => {
       {/* 子菜单 */}
       {hasSubMenu && (
         <ul
-          className={`${show ? 'visible opacity-100 left-72' : 'invisible opacity-0 left-80'} z-20 p-2 absolute right-0 top-0 w-full border-1 border-gray-300 dark:border-gray-600 bg-white dark:bg-black transition-all duration-300 drop-shadow-lg rounded-lg`}>
+          className={`${show ? 'visible opacity-100 left-72' : 'invisible opacity-0 left-80'} z-20 p-2 absolute right-0 top-0 w-full border-1 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 transition-all duration-300 drop-shadow-lg rounded-lg`}>
           {link?.subMenus?.map((sLink, index) => {
             return (
               <li key={index}>

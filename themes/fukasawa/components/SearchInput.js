@@ -67,7 +67,7 @@ const SearchInput = (props) => {
     searchInputRef.current.value = ''
   }
 
-  return <div className='flex w-full bg-gray-100 rounded-lg'>
+  return <div className='flex w-full bg-gray-100 dark:bg-gray-800 rounded-lg'>
     <input
       ref={searchInputRef}
       type='text'
