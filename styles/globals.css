@@ -82,6 +82,8 @@ nav {
   }
 }
 
+
+
 /* 浅色模式下的壁纸背景 */
 :root:not(.dark) body {
   background-image: url('/wallpaper/bg.png');
@@ -133,6 +135,10 @@ nav {
   background: transparent;
   border-radius: 4px;
   opacity: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {

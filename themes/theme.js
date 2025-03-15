@@ -199,9 +199,12 @@ export function isPreferDark() {
     ).matches
     return (
       prefersDarkMode ||
-      (BLOG.APPEARANCE_DARK_TIME &&
-        (date.getHours() >= BLOG.APPEARANCE_DARK_TIME[0] ||
-          date.getHours() < BLOG.APPEARANCE_DARK_TIME[1]))
+      (BLOG.APPEARANCE_DARK_TIME && (() => {
+      console.log('当前小时:', date.getHours(), '配置时间区间:', BLOG.APPEARANCE_DARK_TIME)
+      const result = date.getHours() >= BLOG.APPEARANCE_DARK_TIME[0] || date.getHours() < BLOG.APPEARANCE_DARK_TIME[1]
+      console.log('时间区间判断结果:', result)
+      return result
+    })())
     )
   }
   return false

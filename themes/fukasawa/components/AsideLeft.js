@@ -160,7 +160,7 @@ function AsideLeft(props) {
               <i className='mr-1 fas fa-stream' />
               文章目录
             </div>
-            <div className='catalog-wrapper bg-white dark:bg-hexo-black-gray w-full overflow-hidden'>
+            <div className='catalog-wrapper scroll-hidden w-full overflow-hidden'>
               <Catalog toc={post.toc} />
             </div>
             

@@ -22,10 +22,36 @@ class MyDocument extends Document {
                 crossOrigin='anonymous'
               />
               <link
+                rel='preload'
+                href='https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap'
+                as='style'
+                crossOrigin='anonymous'
+              />
+              <link
+                rel='preload'
+                href='https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300&display=swap'
+                as='style'
+                crossOrigin='anonymous'
+              />
+              <link
                 rel='stylesheet'
                 href={BLOG.FONT_AWESOME}
                 crossOrigin='anonymous'
                 referrerPolicy='no-referrer'
+              />
+              <link
+                rel='stylesheet'
+                href='https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap'
+                crossOrigin='anonymous'
+                media='print'
+                onLoad="this.onload=null;this.media='all'"
+              />
+              <link
+                rel='stylesheet'
+                href='https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300&display=swap'
+                crossOrigin='anonymous'
+                media='print'
+                onLoad="this.onload=null;this.media='all'"
               />
             </>
           )}
