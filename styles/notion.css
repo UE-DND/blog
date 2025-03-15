@@ -136,7 +136,7 @@
 
 .notion-aside {
   position: sticky;
-  top: 88px;
+  top: -1px;
   min-height: calc(100vh - 88px - 16px);
   align-self: flex-start;
   flex: 1;
@@ -502,7 +502,7 @@ summary > .notion-h {
 
 #container > article {
   position: sticky;
-  top: 88px;
+  top: -1px;
   min-height: calc(100vh - 88px - 16px);
   height: calc(100% - 16px);
   @apply glass-effect;
