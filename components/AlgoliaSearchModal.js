@@ -257,9 +257,13 @@ export default function AlgoliaSearchModal({ cRef }) {
             搜索
           </div>
           <div>
-            <i
-              className='text-gray-600 fa-solid fa-xmark p-1 cursor-pointer hover:text-blue-600'
-              onClick={closeModal}></i>
+            {isLoading ? (
+              <i className='text-gray-600 fa-solid fa-spinner animate-spin p-1'></i>
+            ) : (
+              <i
+                className='text-gray-600 fa-solid fa-xmark p-1 cursor-pointer hover:text-blue-600'
+                onClick={closeModal}></i>
+            )}
           </div>
         </div>
 
@@ -304,7 +308,7 @@ export default function AlgoliaSearchModal({ cRef }) {
         </ul>
         <Pagination totalPage={totalPage} page={page} switchPage={switchPage} />
         <div className='flex items-center justify-between mt-2 sm:text-sm text-xs dark:text-gray-300'>
-          {totalHit === 0 && (
+          {totalHit === 0 ? (
             <div className='flex items-center'>
               {ShortCutActions.map((action, index) => {
                 return (
@@ -319,15 +323,12 @@ export default function AlgoliaSearchModal({ cRef }) {
                 )
               })}
             </div>
+          ) : (
+            <p className="text-gray-600 dark:text-gray-300">
+              共搜索到 {totalHit} 条结果，用时 {useTime} 毫秒
+            </p>
           )}
-          <div>
-            {totalHit > 0 && (
-              <p>
-                共搜索到 {totalHit} 条结果，用时 {useTime} 毫秒
-              </p>
-            )}
-          </div>
-          <div className='text-gray-600 dark:text-gray-300  text-right'>
+          <div className='text-gray-600 dark:text-gray-300 text-right'>
             <span>
               <i className='fa-brands fa-algolia'></i> Algolia 提供搜索服务
             </span>

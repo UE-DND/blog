@@ -103,16 +103,26 @@
   .notion-page-content-has-aside {
     display: flex;
     flex-direction: row;
-    width: calc((100vw + var(--notion-max-width)) / 2);
+    justify-content: flex-start;
+    width: 100%;
+    max-width: calc(var(--notion-max-width) + 260px);
+    margin: 0 auto;
+    padding: 0 24px;
   }
 
   .notion-page-content-has-aside .notion-aside {
     display: flex;
+    min-width: 240px;
+    width: 240px;
+    margin-left: 40px;
+    flex-shrink: 0;
   }
 
   .notion-page-content-has-aside .notion-page-content-inner {
-    width: var(--notion-max-width);
+    width: 100%;
     max-width: var(--notion-max-width);
+    flex: 1;
+    min-width: 0;
   }
 }
 
@@ -2025,10 +2035,6 @@ pre[class*='language-mermaid'] {
 /* mermaid 原文隐藏 */
 code.language-mermaid {
   display: none;
-}
-
-.mermaid .invisible{
-  visibility: inherit;
 }
 
 .code-toolbar {

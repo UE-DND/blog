@@ -11,10 +11,10 @@ import { Transition } from '@headlessui/react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import ArticleDetail from './components/ArticleDetail'
 import ArticleLock from './components/ArticleLock'
-import AsideLeft from './components/AsideLeft'
+import AsideLeft, { SidebarButtons } from './components/AsideLeft'
 import BlogListPage from './components/BlogListPage'
 import BlogListScroll from './components/BlogListScroll'
 import BlogArchiveItem from './components/BlogPostArchive'
@@ -48,11 +48,27 @@ const LayoutBase = props => {
   const leftAreaSlot = <Live2D />
   const { onLoading, fullWidth } = useGlobal()
   const searchModal = useRef(null)
+  
+  // 添加侧边栏折叠状态共享
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('fukasawa-sidebar-collapse') === 'true'
+    }
+    return false
+  })
+  
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('fukasawa-sidebar-collapse', !isCollapsed)
+    }
+  }
+  
   return (
-    <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
+    <ThemeGlobalFukasawa.Provider value={{ searchModal, isCollapsed, toggleSidebar }}>
       <div
         id='theme-fukasawa'
-        className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth`}>
+        className={`${siteConfig('FONT_STYLE')} dark:bg-gray-900 scroll-smooth`}>
         <Style />
         {/* 页头导航，此主题只在移动端生效 */}
         <Header {...props} />
@@ -68,7 +84,11 @@ const LayoutBase = props => {
 
           <main
             id='wrapper'
-            className='relative flex w-full py-8 justify-center bg-day dark:bg-night'>
+            className='relative flex py-8 justify-center bg-day dark:bg-night duration-500 transition-all'
+            style={{
+              width: isCollapsed ? '100%' : 'calc(100% - 20rem)',
+              marginLeft: isCollapsed ? '0' : '0'
+            }}>
             <div
               id='container-inner'
               className={`${fullWidth ? '' : '2xl:max-w-6xl md:max-w-4xl'} w-full relative z-10`}>
@@ -92,8 +112,13 @@ const LayoutBase = props => {
               </div>
             </div>
           </main>
+          
+          {/* 添加侧边栏按钮 */}
+          <SidebarButtons />
         </div>
 
+        {/* 侧边栏按钮，移到此处确保正确显示 */}
+        <SidebarButtons />
         <AlgoliaSearchModal cRef={searchModal} {...props} />
       </div>
     </ThemeGlobalFukasawa.Provider>
@@ -106,6 +131,10 @@ const LayoutBase = props => {
  * @returns 首页就是一个博客列表
  */
 const LayoutIndex = props => {
+  // 如果有Home类型的文章，显示该文章内容，否则显示博客列表
+  if (props.homePost) {
+    return <LayoutSlug {...props} post={props.homePost} />
+  }
   return <LayoutPostList {...props} />
 }
 
@@ -215,7 +244,6 @@ const LayoutArchive = props => {
  */
 const Layout404 = props => {
   const router = useRouter()
-  const { locale } = useGlobal()
   useEffect(() => {
     // 延时3秒如果加载失败就返回首页
     setTimeout(() => {
@@ -233,7 +261,7 @@ const Layout404 = props => {
             <div className='dark:text-gray-200'>
                 <h2 className='inline-block border-r-2 border-gray-600 mr-2 px-3 py-2 align-top'><i className='mr-2 fas fa-spinner animate-spin' />404</h2>
                 <div className='inline-block text-left h-32 leading-10 items-center'>
-                    <h2 className='m-0 p-0'>{locale.NAV.PAGE_NOT_FOUND_REDIRECT}</h2>
+                    <h2 className='m-0 p-0'>页面无法加载，即将返回首页</h2>
                 </div>
             </div>
         </div>

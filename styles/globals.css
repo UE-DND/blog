@@ -13,6 +13,7 @@ html {
   align-items: stretch;
   justify-content: flex-start;
   flex-direction: column;
+  border: none;
 }
 
 .sticky-nav {
@@ -81,6 +82,15 @@ nav {
   }
 }
 
+/* 浅色模式下的壁纸背景 */
+:root:not(.dark) body {
+  background-image: url('/wallpaper/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
 .shadow-card {
   box-shadow:
     rgba(0, 0, 0, 0.07) 0px 1px 2px,
@@ -110,10 +120,60 @@ nav {
   width: 0 !important;
 }
 
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(20px);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+  opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.6);
+  border-radius: 4px;
+  transition: background 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.scrolling::-webkit-scrollbar,
+.scrolling::-webkit-scrollbar-thumb {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(74, 85, 104, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 85, 104, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(193, 193, 193, 0.8);
+}
+
 .glassmorphism {
   background: hsla(0, 0%, 100%, 0.05);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+}
+
+#container > article {
+  background: hsla(0, 0%, 100%, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
 .medium-zoom-overlay {
@@ -194,7 +254,7 @@ nav {
 }
 
 .webmention {
-  margin-top: 1rem;
+  margin-top: -4rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }

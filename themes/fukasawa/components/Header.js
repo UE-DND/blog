@@ -23,7 +23,7 @@ const Header = props => {
       <div
         id='sticky-nav'
         className={
-          'relative w-full top-0 z-20 transform duration-500 bg-white dark:bg-black'
+          'relative w-full top-0 z-20 transform duration-500 bg-white dark:bg-gray-900'
         }>
         <Collapse type='vertical' isOpen={isOpen} collapseRef={collapseRef}>
           <div className='py-1 px-5'>

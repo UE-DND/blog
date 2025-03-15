@@ -52,7 +52,7 @@ function renderStarrySky() {
         (this.y = l(0, e)),
         (this.r = l(1.1, 2.6)),
         (this.dx = l(t, 6 * t) + (this.comet + 1 - 1) * t * l(50, 120) + 2 * t),
-        (this.dy = -l(t, 6 * t) - (this.comet + 1 - 1) * t * l(50, 120)),
+        (this.dy = l(t, 6 * t) + (this.comet + 1 - 1) * t * l(50, 120)),
         (this.fadingOut = null),
         (this.fadingIn = !0),
         (this.opacity = 0),
@@ -68,7 +68,7 @@ function renderStarrySky() {
         this.fadingOut &&
           ((this.fadingOut = !(this.opacity < 0)),
           (this.opacity -= this.do / 2),
-          (this.x > n || this.y < 0) && ((this.fadingOut = !1), this.reset()))
+          (this.x > n || this.y > e) && ((this.fadingOut = !1), this.reset()))
       }),
       (this.draw = function () {
         if ((h.beginPath(), this.giant))
@@ -120,9 +120,14 @@ function renderStarrySky() {
       u()
     })(),
     (function t() {
-      document.getElementsByTagName('html')[0].className.indexOf('dark') >= 0 &&
-        u(),
-        window.requestAnimationFrame(t)
+      const isDarkMode = document.getElementsByTagName('html')[0].className.indexOf('dark') >= 0
+      if (isDarkMode) {
+        u()
+      } else {
+        // 在退出深色模式时清除画布
+        h.clearRect(0, 0, n, e)
+      }
+      window.requestAnimationFrame(t)
     })()
 }
 

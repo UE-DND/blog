@@ -1,4 +1,3 @@
-import Comment from '@/components/Comment'
 import { AdSlot } from '@/components/GoogleAdsense'
 import LazyImage from '@/components/LazyImage'
 import NotionIcon from '@/components/NotionIcon'
@@ -27,7 +26,7 @@ export default function ArticleDetail(props) {
   return (
     <div
       id='container'
-      className={`${fullWidth ? 'px-10' : 'max-w-5xl '} overflow-x-auto flex-grow mx-auto w-screen md:w-full`}>
+      className={`${fullWidth ? 'px-10' : 'max-w-6xl '} overflow-x-auto flex-grow mx-auto w-screen md:w-full mt-[-20px]`}>
       {post?.type && !post?.type !== 'Page' && post?.pageCover && (
         <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
           <LazyImage
@@ -41,7 +40,7 @@ export default function ArticleDetail(props) {
       <article
         itemScope
         itemType='https://schema.org/Movie'
-        className='subpixel-antialiased overflow-y-hidden py-10 px-5 lg:pt-24 md:px-32  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+        className='subpixel-antialiased overflow-y-hidden py-10 px-5 lg:pt-20 md:px-28 dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
         <header>
           {/* 文章Title */}
           <div className='font-bold text-4xl text-black dark:text-white'>
@@ -108,12 +107,7 @@ export default function ArticleDetail(props) {
         </section>
       </article>
 
-      {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />}
 
-      {/* 评论互动 */}
-      <div className='duration-200 shadow py-6 px-12 w-screen md:w-full overflow-x-auto dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
-        <Comment frontMatter={post} />
-      </div>
     </div>
   )
 }

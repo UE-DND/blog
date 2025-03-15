@@ -67,13 +67,13 @@ const SearchInput = (props) => {
     searchInputRef.current.value = ''
   }
 
-  return <div className='flex w-full bg-gray-100'>
+  return <div className='flex w-full bg-gray-100 dark:bg-gray-800 rounded-lg'>
     <input
       ref={searchInputRef}
       type='text'
       placeholder={locale.SEARCH.ARTICLES}
       aria-label="Search"
-      className={'outline-none w-full text-sm pl-2 transition focus:shadow-lg font-light leading-10 text-black bg-gray-100 dark:bg-gray-800 dark:text-white'}
+      className={'outline-none w-full text-sm pl-4 transition focus:shadow-lg font-light leading-10 text-black bg-gray-100 dark:bg-gray-800 dark:text-white rounded-lg'}
       onKeyUp={handleKeyUp}
       onFocus={handleFocus}
       defaultValue={keyword || ''}
@@ -81,7 +81,7 @@ const SearchInput = (props) => {
 
     <div className='-ml-8 cursor-pointer float-right items-center justify-center py-2'
       onClick={handleSearch}>
-      <i className={`hover:text-black transform duration-200  text-gray-500 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'}`} />
+      <i className={`hover:text-black transform duration-200 text-gray-500 cursor-pointer fas fa-${onLoading ? 'spinner animate-spin' : 'search'}`} />
     </div>
 
     {(keyword && keyword.length &&

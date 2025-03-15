@@ -73,22 +73,7 @@ const SEO = props => {
 
   const BLOG_FAVICON = siteConfig('BLOG_FAVICON', null, NOTION_CONFIG)
 
-  const COMMENT_WEBMENTION_ENABLE = siteConfig(
-    'COMMENT_WEBMENTION_ENABLE',
-    null,
-    NOTION_CONFIG
-  )
 
-  const COMMENT_WEBMENTION_HOSTNAME = siteConfig(
-    'COMMENT_WEBMENTION_HOSTNAME',
-    null,
-    NOTION_CONFIG
-  )
-  const COMMENT_WEBMENTION_AUTH = siteConfig(
-    'COMMENT_WEBMENTION_AUTH',
-    null,
-    NOTION_CONFIG
-  )
   const ANALYTICS_BUSUANZI_ENABLE = siteConfig(
     'ANALYTICS_BUSUANZI_ENABLE',
     null,
@@ -135,22 +120,6 @@ const SEO = props => {
       <meta name='twitter:title' content={title} />
 
       <link rel='icon' href={BLOG_FAVICON} />
-
-      {COMMENT_WEBMENTION_ENABLE && (
-        <>
-          <link
-            rel='webmention'
-            href={`https://webmention.io/${COMMENT_WEBMENTION_HOSTNAME}/webmention`}
-          />
-          <link
-            rel='pingback'
-            href={`https://webmention.io/${COMMENT_WEBMENTION_HOSTNAME}/xmlrpc`}
-          />
-          {COMMENT_WEBMENTION_AUTH && (
-            <link href={COMMENT_WEBMENTION_AUTH} rel='me' />
-          )}
-        </>
-      )}
 
       {ANALYTICS_BUSUANZI_ENABLE && (
         <meta name='referrer' content='no-referrer-when-downgrade' />
@@ -247,7 +216,7 @@ const getSEOMeta = (props, router, locale) => {
       }
     case '/404':
       return {
-        title: `${siteInfo?.title} | ${locale.NAV.PAGE_NOT_FOUND}`,
+        title: `${siteInfo?.title} | 页面找不到啦`,
         image: `${siteInfo?.pageCover}`
       }
     case '/tag':

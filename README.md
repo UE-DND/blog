@@ -208,3 +208,21 @@ The MIT License.
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=tangly1024/NotionNext&type=Date)](https://star-history.com/#tangly1024/NotionNext&Date)
+
+## 致谢
+感谢原作者 [tangly1024/NotionNext](https://github.com/tangly1024/NotionNext)    
+本分支主要使用fukasawa主题，在此做了更加激进的修改，包括但不限于：
+```
+删除多余资源
+修复组件bug
+cdn资源指向本地
+
+修复主题原有bug
+更改主题配色
+更改主题图标
+更改主页菜单逻辑
+更改主题按钮数量以及样式
+优化主题内容布局
+优化主题动画效果
+优化主题深色模式效果
+```

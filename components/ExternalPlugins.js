@@ -42,11 +42,6 @@ const ExternalPlugin = props => {
   const MUSIC_PLAYER = siteConfig('MUSIC_PLAYER', null, NOTION_CONFIG)
   const NEST = siteConfig('NEST', null, NOTION_CONFIG)
   const FLUTTERINGRIBBON = siteConfig('FLUTTERINGRIBBON', null, NOTION_CONFIG)
-  const COMMENT_TWIKOO_COUNT_ENABLE = siteConfig(
-    'COMMENT_TWIKOO_COUNT_ENABLE',
-    null,
-    NOTION_CONFIG
-  )
   const RIBBON = siteConfig('RIBBON', null, NOTION_CONFIG)
   const CUSTOM_RIGHT_CLICK_CONTEXT_MENU = siteConfig(
     'CUSTOM_RIGHT_CLICK_CONTEXT_MENU',
@@ -61,24 +56,7 @@ const ExternalPlugin = props => {
     NOTION_CONFIG
   )
   const CHATBASE_ID = siteConfig('CHATBASE_ID', null, NOTION_CONFIG)
-  const COMMENT_DAO_VOICE_ID = siteConfig(
-    'COMMENT_DAO_VOICE_ID',
-    null,
-    NOTION_CONFIG
-  )
   const AD_WWADS_ID = siteConfig('AD_WWADS_ID', null, NOTION_CONFIG)
-  const COMMENT_ARTALK_SERVER = siteConfig(
-    'COMMENT_ARTALK_SERVER',
-    null,
-    NOTION_CONFIG
-  )
-  const COMMENT_ARTALK_JS = siteConfig('COMMENT_ARTALK_JS', null, NOTION_CONFIG)
-  const COMMENT_TIDIO_ID = siteConfig('COMMENT_TIDIO_ID', null, NOTION_CONFIG)
-  const COMMENT_GITTER_ROOM = siteConfig(
-    'COMMENT_GITTER_ROOM',
-    null,
-    NOTION_CONFIG
-  )
   const ANALYTICS_BAIDU_ID = siteConfig(
     'ANALYTICS_BAIDU_ID',
     null,
@@ -130,6 +108,7 @@ const ExternalPlugin = props => {
     // 静态导入本地自定义样式
     loadExternalResource('/css/custom.css', 'css')
     loadExternalResource('/js/custom.js', 'js')
+    loadExternalResource('/css/animation/spin.css', 'css')
 
     // 自动添加图片阴影
     if (IMG_SHADOW) {
@@ -198,7 +177,6 @@ const ExternalPlugin = props => {
       {MUSIC_PLAYER && <MusicPlayer />}
       {NEST && <Nest />}
       {FLUTTERINGRIBBON && <FlutteringRibbon />}
-      {COMMENT_TWIKOO_COUNT_ENABLE && <TwikooCommentCounter {...props} />}
       {RIBBON && <Ribbon />}
       {DIFY_CHATBOT_ENABLED && <DifyChatbot />}
       {CUSTOM_RIGHT_CLICK_CONTEXT_MENU && <CustomContextMenu {...props} />}
@@ -269,47 +247,6 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {COMMENT_DAO_VOICE_ID && (
-        <>
-          {/* DaoVoice 反馈 */}
-          <script
-            async
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(i, s, o, g, r, a, m) {
-                  i["DaoVoiceObject"] = r;
-                  i[r] = i[r] || function() {
-                    (i[r].q = i[r].q || []).push(arguments);
-                  };
-                  i[r].l = 1 * new Date();
-                  a = s.createElement(o);
-                  m = s.getElementsByTagName(o)[0];
-                  a.async = 1;
-                  a.src = g;
-                  a.charset = "utf-8";
-                  if (m && m.parentNode) {
-                    m.parentNode.insertBefore(a, m);
-                  } else {
-                    s.head.appendChild(a);
-                  }
-                })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/daf1a94b.js", "daovoice")
-                `
-            }}
-          />
-          <script
-            async
-            dangerouslySetInnerHTML={{
-              __html: `
-             daovoice('init', {
-                app_id: "${COMMENT_DAO_VOICE_ID}"
-              });
-              daovoice('update');
-              `
-            }}
-          />
-        </>
-      )}
-
       {/* HILLTOP广告验证 */}
       {HILLTOP_ADS_META_ID && (
         <Head>
@@ -330,34 +267,7 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {/* {COMMENT_TWIKOO_ENV_ID && <script defer src={COMMENT_TWIKOO_CDN_URL} />} */}
 
-      {COMMENT_ARTALK_SERVER && <script defer src={COMMENT_ARTALK_JS} />}
-
-      {COMMENT_TIDIO_ID && (
-        <script async src={`//code.tidio.co/${COMMENT_TIDIO_ID}.js`} />
-      )}
-
-      {/* gitter聊天室 */}
-      {COMMENT_GITTER_ROOM && (
-        <>
-          <script
-            src='https://sidecar.gitter.im/dist/sidecar.v1.js'
-            async
-            defer
-          />
-          <script
-            async
-            dangerouslySetInnerHTML={{
-              __html: `
-            ((window.gitter = {}).chat = {}).options = {
-              room: '${COMMENT_GITTER_ROOM}'
-            };
-            `
-            }}
-          />
-        </>
-      )}
 
       {/* 百度统计 */}
       {ANALYTICS_BAIDU_ID && (
@@ -436,10 +346,6 @@ const ExternalPlugin = props => {
   )
 }
 
-const TwikooCommentCounter = dynamic(
-  () => import('@/components/TwikooCommentCounter'),
-  { ssr: false }
-)
 const DebugPanel = dynamic(() => import('@/components/DebugPanel'), {
   ssr: false
 })

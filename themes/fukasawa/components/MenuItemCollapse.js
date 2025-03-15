@@ -63,7 +63,7 @@ export const MenuItemCollapse = props => {
             </div>
             <div className='inline-flex items-center '>
               <i
-                className={`px-2 fas fa-chevron-right transition-all duration-200 ${isOpen ? 'rotate-90' : ''}`}></i>
+                className={`px-2 fas fa-chevron-right transform transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}></i>
             </div>
           </div>
         )}
@@ -78,7 +78,7 @@ export const MenuItemCollapse = props => {
                 key={index}
                 className='whitespace-nowrap dark:text-gray-200
               not:last-child:border-b-0 border-b dark:border-gray-800 py-2 px-14 cursor-pointer hover:bg-gray-100
-              font-extralight dark:bg-black text-left justify-start text-gray-600 bg-gray-50 dark:hover:bg-gray-900 tracking-widest transition-all duration-200'>
+              font-extralight dark:bg-gray-800 text-left justify-start text-gray-600 bg-gray-50 dark:hover:bg-gray-900 tracking-widest transition-all duration-200'>
                 <Link href={sLink.href} target={link?.target}>
                   <div>
                     <div
