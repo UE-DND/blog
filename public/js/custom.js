@@ -13,14 +13,18 @@ let scrollTimeout;
 let isScrolling = false;
 
 window.addEventListener('scroll', function() {
+  const images = document.querySelectorAll('#container > div > img, .notion-image');
+  
   if (!isScrolling) {
     isScrolling = true;
     document.documentElement.classList.add('scrolling');
+    images.forEach(img => img.classList.add('scrolling'));
   }
   
   clearTimeout(scrollTimeout);
   scrollTimeout = setTimeout(() => {
     isScrolling = false;
     document.documentElement.classList.remove('scrolling');
+    images.forEach(img => img.classList.remove('scrolling'));
   }, 1200);
 }, { passive: true });
