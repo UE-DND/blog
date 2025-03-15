@@ -346,6 +346,7 @@
 }
 .notion-gray_background_co {
   background-color: var(--notion-gray_background_co);
+  @apply dark:bg-gray-800 dark:text-black;
 }
 .notion-green_background_co {
   background-color: var(--notion-green_background_co);
